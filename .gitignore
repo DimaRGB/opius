@@ -1,0 +1,11 @@
+console/__history/
+console/Win32/Debug/
+console/OpiusConsole.cbproj.local
+form/__history/
+form/Win32/Debug/
+form/OpiusForm.cbproj.local
+lib/__history/
+!console/Win32/Debug/data/
+!console/Win32/Debug/OpiusConsole.exe
+!form/Win32/Debug/data/
+!form/Win32/Debug/OpiusForm.exe

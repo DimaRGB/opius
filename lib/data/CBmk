@@ -1,0 +1,52 @@
+bort:42405:
+TH  :temperatura narugnogo vozduha         :1:1: 1:0.01:
+HB  :visota barometricheskaja              :1:1: 2:1:
+HG  :visota geometricheskaja               :1:1: 3:0.1:
+VP  :skorost pribornaja                    :1:1: 4:0.1:
+VUx :uglovaja skorost krena                :1:1: 6:0.01:
+Az  :peregruzka bokovaja                   :1:1: 7:0.001:
+Ay  :peregruzka verticalnaja               :1:1: 9:0.001:
+SV  :pologenie rulja visoti                :1:1:10:0.01:
+UK  :ugol krena                            :1:1:11:0.01:
+UN  :ugol kursa giromagnitnogo             :1:1:12:0.1:
+UT  :ugol tangaga                          :1:1:13:0.01:
+UKd :ugol krena rezervni                   :1:1:14:0.01:
+ZK  :otklonenie ot RSZ kursa               :1:1:15:0.01:
+KN  :kalibrovka minimuma                   :1:1:16:1:
+ZG  :otklonenie ot RSZ  glissadi           :1:1:17:0.01:
+RDl :pologenie RUD l/d                     :1:1:19:0.01:
+Nnl :oboroty ventiljatora l/d              :1:1:20:0.01:
+Nvl :oboroty KVD l/d                       :1:1:21:0.01:
+Tl  :temperatura gaza za turbinoy l/d      :1:1:22:0.1:
+RDs :pologenie RUD s/d                     :1:1:23:0.01:
+Ay_2:peregruzka verticalnaja  - 2 opros    :1:1:25:0.001:
+SV_2:pologenie rulja visoti   - 2 opros    :1:1:26:0.01:
+UK_2:ugol krena               - 2 opros    :1:1:27:0.01:
+Nns :oboroty ventiljatora s/d              :1:1:28:0.01:
+Nvs :oboroty KVD s/d                       :1:1:29:0.01:
+Ts  :temperatura gaza za turbinoy s/d      :1:1:30:0.1:
+RDp :pologenie RUD p/d                     :1:1:31:0.01:
+Nnp :oboroty ventiljatora p/d              :1:1:32:0.01:
+Nvp :oboroty KVD p/d                       :1:1:33:0.01:
+Tp  :temperatura gaza za turbinoy p/d      :1:1:34:0.1:
+BDl :vibracia l/d                          :1:1:35:0.01:
+BDs :vibracia s/d                          :1:1:36:0.01:
+BDp :vibracia p/d                          :1:1:37:0.01:
+RB  :pologenie baranki shturvala           :1:1:39:0.01:
+Ay_3:peregruzka verticalnaja  - 3 opros    :1:1:41:0.001:
+SV_3:pologenie rulja visoti   - 3 opros    :1:1:42:0.01:
+UK_3:ugol krena               - 3 opros    :1:1:43:0.01:
+RP  :pologenie pedalej                     :1:1:44:0.01:
+RK  :pologenie kolonky shturvala           :1:1:45:0.01:
+SE  :pologenie elerona                     :1:1:46:0.01:
+SN  :pologenie rulaj napravlenija          :1:1:47:0.01:
+KM  :kalibrovka maksimuma                  :1:1:48:1:
+SVS :pologenie stabilizatora               :1:1:49:0.001:
+MZ  :pologenie zakrilka                    :1:1:50:0.01:
+DKA :perepad davlenija kabina-atmosfera    :1:1:54:0.001:
+Ay_4:peregruzka verticalnaja  - 4 opros    :1:1:57:0.001:
+SV_4:pologenie rulja visoti   - 4 opros    :1:1:58:0.01:
+UK_4:ugol krena               - 4 opros    :1:1:59:0.01:
+MTV :pologenie trimmera rulja visotu       :1:1:61:0.001:
+EA27:naprjagenie 27B na avarinoi shine     :1:1:62:0.01:
+QT  :ostatok topliva summarni              :1:1:63:0.001:

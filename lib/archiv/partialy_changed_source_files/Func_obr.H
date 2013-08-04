@@ -1,0 +1,25 @@
+// func_obr.h - onpedeleNie fuNkcij
+void  CalculateFlight();
+void  ClearAPRKFreeZone();
+void  ErrObr(int);
+void  FreeMem();
+void  FrmIRK(struct RK *, short, short, short, float, short);
+short GetParmVec(char *p_str, char *p_mpf[], char sym);
+int   OpenFK();
+void  PrintAtrFK();
+void  PrintAtrFlight();
+void  PrintOD();
+void  PrintFreeZone();
+void  PrintParam();
+void  ReadAtrFK();
+void  ReadAtrFlight();
+void  ReadCyclogram(short);
+void  ReadFreeZone();
+void  ReadKdr(int);
+void  ReadOD();
+void  ReadSSFK();
+void  WriteFizAP(int, int, float);
+void  WriteFizRK(int, int, int, unsigned long);
+void  WriteKdr(int);
+void  WriteParam(int, int, int);
+void  WriteSSFK(int);

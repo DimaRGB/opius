@@ -1,0 +1,124 @@
+bort:42405:
+OD  :opoznavatelnye dannye                 :0:1: 0:
+TH  :temperatura narugnogo vozduha         :1:1: 1:
+HB  :visota barometricheskaja              :1:1: 2:
+HG  :visota geometricheskaja               :1:1: 3:
+VP  :skorost pribornaja                    :1:1: 4:
+VST :stabilizator na kabrirovanie          :3:1: 5: 0: 5: 0:
+oPGB:dim v bagagnom otdelenii              :3:1: 5: 1: 5: 1:
+kDDU:peresivanie DDU                       :3:1: 5: 2: 5: 2:
+iSy :vkluchenie SAU po rulu napravlenja    :3:1: 5: 3: 5: 3:
+Vux :uglovaja skorost krena                :1:1: 6:
+Az  :peregruzka bokovaja                   :1:1: 7:
+VA  :previshenie predelnogo ugla ataki     :4:1: 8: 0: 8: 0:
+VUK :kren velik                            :4:1: 8: 1: 8: 1:
+kMM :prolet MRM/upravlenie MPS rezerv. g/s :4:1: 8: 2: 8: 2:
+oVY :predupregdenie ot SSOS                :4:1: 8: 3: 8: 3:
+iVY :vkluchenie SSOS                       :4:1: 8: 4: 8: 4:
+gRSK:gotovnost 1 kanala zoni kursa KRM     :4:1: 8: 5: 8: 5:
+gRSG:gotovnost 1 kanala zoni glissadi GRM  :4:1: 8: 6: 8: 6:
+kKG :kurs 0-180                            :4:1: 8: 7: 8: 7:
+Ay  :peregruzka verticalnaja               :1:4: 9:25:41:57:
+SV  :pologenie rulja visoti                :1:4:10:26:42:58:
+UK  :ugol krena                            :1:4:11:27:43:59:
+UN  :ugol kursa giromagnitnogo             :1:1:12:
+UT  :ugol tangaga                          :1:1:13:
+Ukd :ugol krena rezervni                   :1:1:14:
+ZK  :otklonenie ot RSZ kursa               :1:1:15:
+KN  :kalibrovka minimuma                   :1:1:16:
+ZG  :otklonenie ot RSZ  glissadi           :1:1:17:
+oSx :otkaz kanala krena SAU                :3:1:18: 0: 5: 4:
+oSz :otkaz kanala tangaga SAU              :3:1:18: 1: 5: 5:
+iSx :vkluchenie SAU po krenu               :3:1:18: 2: 5: 6:
+iSz :vkluchenie SAU po tangagu             :3:1:18: 3: 5: 7:
+pZEM:priznak zemlya                        :5:1:18: 0:18: 0:
+pRUL:priznak rulenie                       :5:1:18: 1:18: 1:
+pRAZB:priznak razbeg                       :5:1:18: 2:18: 2:
+RDl :pologenie RUD l/d                     :1:1:19:
+Nnl :oboroty ventiljatora l/d              :1:1:20:
+Nvl :oboroty KVD l/d                       :1:1:21:
+Tl  :temperatura gaza za turbinoy l/d      :1:1:22:
+RDs :pologenie RUD s/d                     :1:1:23:
+oVl :opasnaja vibracia l/d                 :4:1:24: 0: 8: 8:
+oVs :opasnaja vibracia s/d                 :4:1:24: 1: 8: 9:
+oVp :opasnaja vibracia p/d                 :4:1:24: 2: 8:10:
+nPTl:malo davlenie topliva l/d             :4:1:24: 3: 8:11:
+nPTs:malo davlenie topliva s/d             :4:1:24: 4: 8:12:
+nPTp:malo davlenie topliva p/d             :4:1:24: 5: 8:13:
+iMAT:vkluchenie mufti IMAT                 :4:1:24: 6: 8:14:
+iPSP:perekluchatel SPOILERI v AVTOMAT.VIP. :4:1:24: 7: 8:15:
+pDw :prizn.wzletnui pegim dvigatelei       :5:1:24: 0:24: 0:
+pDwl:prizn.wzletnui pegim dvigatelja l     :5:1:24: 1:24: 1:
+pDws:prizn.wzletnui pegim dvigatelja s     :5:1:24: 2:24: 2:
+pDwp:prizn.wzletnui pegim dvigatelja p     :5:1:24: 3:24: 3:
+pDzms:prizn.pegim zemN.malui gaz dvigatel. s:5:1:24: 4:24: 4:
+Ay_2:peregruzka verticalnaja  - 2 opros    :1:1:25:
+SV_2:pologenie rulja visoti   - 2 opros    :1:1:26:
+UK_2:ugol krena               - 2 opros    :1:1:27:
+Nns :oboroty ventiljatora s/d              :1:1:28:
+Nvs :oboroty KVD s/d                       :1:1:29:
+Ts  :temperatura gaza za turbinoy s/d      :1:1:30:
+RDp :pologenie RUD p/d                     :1:1:31:
+Nnp :oboroty ventiljatora p/d              :1:1:32:
+Nvp :oboroty KVD p/d                       :1:1:33:
+Tp  :temperatura gaza za turbinoy p/d      :1:1:34:
+BDl :vibracia l/d                          :1:1:35:
+BDs :vibracia s/d                          :1:1:36:
+BDp :vibracia p/d                          :1:1:37:
+kOl :ROD v pologenie STOP l/d              :3:1:38: 0: 5: 8:
+kOs :ROD v pologenie STOP s/d              :3:1:38: 1: 5: 9:
+kOp :ROD v pologenie STOP p/d              :3:1:38: 2: 5:10:
+oSM :strugka/peregrev masla dvigatelja     :3:1:38: 3: 5:11:
+dVP :proizvodnaj pribornoi skorosti        :2:1:38:
+RB  :pologenie baranki shturvala           :1:1:39:
+oLND:k posadke ne gotov                    :4:1:40: 0: 8:16:
+iSP :spoilery vipuscheni                   :4:1:40: 1: 8:17:
+oGS :otkaz osnovnoi g/s                    :4:1:40: 2: 8:18:
+oGSa:otkaz avarijnoi g/s                   :4:1:40: 3: 8:19:
+kMST:upravlenie MPS ot osnovnoj g/s        :4:1:40: 4: 8:20:
+iGWd:ispravnost MGV rezervnoj              :4:1:40: 5: 8:21:
+iAGp:ispravnost AG pr.                     :4:1:40: 6: 8:22:
+iAGl:ispravnost AG lv.                     :4:1:40: 7: 8:23:
+Ay_3:peregruzka verticalnaja  - 3 opros    :1:1:41:
+SV_3:pologenie rulja visoti   - 3 opros    :1:1:42:
+UK_3:ugol krena               - 3 opros    :1:1:43:
+RP  :pologenie pedalej                     :1:1:44:
+RK  :pologenie kolonky shturvala           :1:1:45:
+SE  :pologenie elerona                     :1:1:46:
+SN  :pologenie rulaj napravlenija          :1:1:47:
+KM  :kalibrovka maksimuma                  :1:1:48:
+SVS :pologenie stabilizatora               :1:1:49:
+MZ  :pologenie zakrilka                    :1:1:50:
+iKG :ispravnost BGMK-6 lv.                 :3:1:51: 0: 5:12:
+iRWl:ispravnost RV-5 lv.                   :3:1:51: 1: 5:13:
+oSP :spoileri neispravni                   :3:1:51: 2: 5:14:
+oG  :otkaz treh generatorov                :3:1:51: 3: 5:15:
+S205:vremja zanusk.sred.dvig.Na zemle > 50c:5:1:51: 0:51: 0:
+nST :stabilizator na pikirovanie           :3:1:52: 0: 5:16:
+oGT :toplivo 320 kg                        :3:1:52: 1: 5:17:
+iPTS:avtomaticheskoe vkluchenie PTS-800    :3:1:52: 2: 5:18:
+iPOS:avtomaticheskoe vkluchenie POS-1000   :3:1:52: 3: 5:19:
+DKA :perepad davlenija kabina-atmosfera    :1:1:54:
+nPMp:min.davlenie masla na vhode p/d       :3:1:55: 0: 5:20:
+nPMl:min.davlenie masla na vhode l/d       :3:1:55: 1: 5:21:
+nPMs:min.davlenie masla na vhode s/d       :3:1:55: 2: 5:22:
+oTN :ubav regim dvigatelja                 :3:1:55: 3: 5:23:
+iRWp:ispravnost RV-5 pr.                   :4:1:56: 0: 8:24:
+oTR :otkaz kanala avtotrimmera             :4:1:56: 1: 8:25:
+oGSZ:vikl.g/s pri kritich.ugle rassogl.zakr:4:1:56: 2: 8:26:
+oiSH:vipusk shassi                         :4:1:56: 3: 8:27:
+iSH :shassi vipuscheno                     :4:1:56: 4: 8:28:
+iRS :vihod na vneschnu radiosvjaz          :4:1:56: 5: 8:29:
+oPG :pogar                                 :4:1:56: 6: 8:30:
+iPS :POS vkluchena                         :4:1:56: 7: 8:31:
+dNvs:npoizv.obopot.komnpessop.vusok.davl. l:2:1:56:
+Ay_4:peregruzka verticalnaja  - 4 opros    :1:1:57:
+SV_4:pologenie rulja visoti   - 4 opros    :1:1:58:
+UK_4:ugol krena               - 4 opros    :1:1:59:
+iW  :vihod VSU na regim                    :3:1:60: 0: 5:24:
+kEOl:pitanie elektroklapana ostanova l/d   :3:1:60: 1: 5:25: 
+kEOs:pitanie elektroklapana ostanova s/d   :3:1:60: 2: 5:26:
+kEOp:pitanie elektroklapana ostanova p/d   :3:1:60: 3: 5:27:
+MTV :pologenie trimmera rulja visotu       :1:1:61:
+EA27:naprjagenie 27B na avarinoi shine     :1:1:62:
+QT  :ostatok topliva summarni              :1:1:63:
