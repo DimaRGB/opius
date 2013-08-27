@@ -356,8 +356,8 @@ size_t	sz_tmp;
 		if (! n_fld)             // Net nolei v stpoke faila ciklogpammu?
 			continue;
 		if ((m == 0) && (bort_tmp=atol(p_fld[1])) != OD.Bort) // Ne sovnadaet N bopta v file ciklogpammu i OD?
-		{	output_error(string("\n N bopta ciklogpamma -> %ld != ") + Num_with_nulls(bort_tmp,0)());
-			output_error(string("%ld <- OD\n")+Num_with_nulls(OD.Bort,0)());
+		{	output_error(UnicodeString("\n N bopta ciklogpamma -> " + IntToStr(static_cast<int> (bort_tmp)) +" != ") );
+			output_error(UnicodeString(IntToStr(static_cast<int>(OD.Bort)) + " <- OD\n"));
 			ErrObr(E_ATR_CYCL_BORT);
 		}
 		if (m > 0)
@@ -439,7 +439,7 @@ void ErrObr(int n_err)
 
 	UnicodeString u_str = IntToStr(n_err);
 	AnsiString ansi = u_str;
-	str_rec(std::string("\nERROR_%d ") + std::string(ansi.c_str()));
+	str_rec(std::string("\n ERROR  ") + std::string(ansi.c_str()));
 
 	switch (n_err)
 	{ case E_OPEN_FK              : str_rec("otkputia faila-kopii (OpenFK)"); break;
@@ -703,6 +703,7 @@ void PrintParam(TStringGrid* grid, TStrings* info_str) {
 	info_str->Clear();
 
 //	info_str->Add(" Visualization of parameteres code values bYP ");
+	info_str->Add("Rows are frames, columns are channels");
 	info_str->Add("channels designated by (*)-symbol will be visualized in binary mode");
 
 	for (int i=MIN_CAN; i<=MAX_CAN; i++)    // формирование массива номеров всех каналов
@@ -725,7 +726,7 @@ void PrintParam(TStringGrid* grid, TStrings* info_str) {
 		grid->FixedRows = 1;
 		grid->ColCount += 1;
 		grid->FixedCols = 1;
-		grid->Cells[0][0] = "Frame channel";             // nechat teksta "shanki"
+		grid->Cells[0][0] = "Frame\\channel";             // nechat teksta "shanki"
 
 		for (k=0; k < kol_par; k++)      // koNec spiska vizyalazipyemux napametpov?
 			switch (can_list[k])           // nechat Nomepa kaNala napametpa v "shanki"
@@ -790,7 +791,7 @@ void PrintParam(TStringGrid* grid, TStrings* info_str) {
 			free(mas_cod_par[i]);          // osvobojdeNie vudeleNNoi namjati
 	}
 	else
-	{ output_error(" Channels aren't entered. (can't visualize parameter codes)");}
+	{ output_error(UnicodeString(" Channels aren't entered. (can't visualize parameter codes)"));}
 }
 
 
@@ -874,7 +875,9 @@ short GetParmVec(char *p_str, char *p_mpf[], char sym)
 // печать физических значений параметров из массивов структур AP & PK
 // переписано/поправлено
 void PrintFreeZone_v2(TStrings* anlg_par_memo, TStringGrid* anlg_par_grid,
-	TStrings* sngl_com_memo, TStringGrid* sngl_com_grid, TStrings* checkStrings) {
+	TStrings* sngl_com_memo, TStringGrid* sngl_com_grid, TStrings* checkStrings,
+	TStrings* ChannelBox_strings)
+{
 	using namespace std;
 	int n_kdr; // номер кадра
 
@@ -888,13 +891,15 @@ void PrintFreeZone_v2(TStrings* anlg_par_memo, TStringGrid* anlg_par_grid,
 	anlg_par_grid->ColCount = 1;
 	anlg_par_grid->RowCount = 1;
 
-	anlg_par_grid->Cells[0][0] = "Frame/Chan.ph.val";
+	anlg_par_memo->Add("Rows are frames, columns are channels");
+	anlg_par_grid->Cells[0][0] = "Frame\\Chan.ph.val";
 
 	for (n_kdr=0; n_kdr < dl_fk; n_kdr++) { // вывести все номера кадров (время)
 		anlg_par_grid->Cells[0][n_kdr+1] = IntToStr(n_kdr);
 		anlg_par_grid->RowCount += 1;
 	}
 
+	anlg_param_vec.clear(); // очистить вектор данных и информации про параметр
 	for( int par_num = 0; par_num < maxChannel; par_num++ ) { // вывод параметров // строго меньше
 		anlg_par_memo->Add("");
 		anlg_par_memo->Add("");
@@ -905,11 +910,21 @@ void PrintFreeZone_v2(TStrings* anlg_par_memo, TStringGrid* anlg_par_grid,
 		if( p_AP[par_num]==0 )
 			anlg_par_memo->Add(" Parametr #"+ IntToStr(par_num) + " is absent");
 		else {
-			String itemGraph = IntToStr(par_num) + ". " +
+/*			String itemGraph = IntToStr(par_num) + ". " +
 				p_AP[par_num]->p_id + "   (" + String(p_AP[par_num]->p_nm) + ")";
 			checkStrings->Add(itemGraph);
+*/
+			Analog_parameter anlg_param;  // добавить информацию про параметр
+			anlg_param.number = par_num;
+			anlg_param.id = p_AP[par_num]->p_id;
+			anlg_param.name = p_AP[par_num]->p_nm;
 
-			anlg_par_memo->Add(" Parametr #" + IntToStr(par_num));
+			String itemGraph = IntToStr(anlg_param.number) + ". " +
+			String(anlg_param.id.c_str()) + " (" + String(anlg_param.name.c_str()) + ")";
+			checkStrings->Add(itemGraph);
+			ChannelBox_strings->Add(itemGraph);
+
+			anlg_par_memo->Add(" Parameter #" + IntToStr(par_num));
 			anlg_par_memo->Add("\n Identifier == " + String(p_AP[par_num]->p_id));
 			anlg_par_memo->Add("\n Name == " + String(p_AP[par_num]->p_nm));
 			anlg_par_memo->Add("\n \"tin\" == " + IntToStr(p_AP[par_num]->tp));
@@ -918,9 +933,16 @@ void PrintFreeZone_v2(TStrings* anlg_par_memo, TStringGrid* anlg_par_grid,
 			anlg_par_memo->Add("\n Base channel registration of analog parameter in frame == " + IntToStr(p_AP[par_num]->cnm));
 			anlg_par_memo->Add("\n processing flag == " + IntToStr(p_AP[par_num]->fl_obr));
 
-			for (n_kdr=0; n_kdr < dl_fk; n_kdr++) { // значения параметра во времени (по кадрам)
+			for (n_kdr=0; n_kdr < dl_fk; n_kdr++) // значения параметра во времени (по кадрам)
+			{
 				anlg_par_grid->Cells[par_num+1][n_kdr+1] = FloatToStr(p_AP[par_num]->fz[n_kdr]);
+				anlg_param.values.push_back(p_AP[par_num]->fz[n_kdr]);
 			}
+
+			anlg_param.scale = 1;
+			anlg_param.offset = 0;
+			anlg_param.enabled = false;
+			anlg_param_vec.push_back(anlg_param);
 		}
 	}
 
@@ -974,6 +996,7 @@ void PrintFreeZone_v2(TStrings* anlg_par_memo, TStringGrid* anlg_par_grid,
 			sngl_com_memo->Add(" 'bYp' channel == "+ IntToStr(p_RK[channel]->cn));
 			sngl_com_memo->Add(" Registration rate in frame == " + IntToStr(p_RK[channel]->fo));
 
+			bool header_output_count = 0;  // выводить поочередно номер и "channel"
 			const int commands_num = 32;
 			for( int com_num = 0; com_num < commands_num; com_num++ ) {
 				sngl_com_memo->Add("");
@@ -993,7 +1016,14 @@ void PrintFreeZone_v2(TStrings* anlg_par_memo, TStringGrid* anlg_par_grid,
 					sngl_com_memo->Add(" 'IRK' delay of forming == " + IntToStr (p_RK[channel]->zdf[com_num]));
 
 						//---- вывод шапки
-					sngl_com_grid->Cells[cur_cell_col][0] = (cur_cell_col % 2) ? IntToStr(channel) : UnicodeString("channel");
+					if(com_num == 0)
+					{
+						sngl_com_grid->Cells[cur_cell_col][0] = IntToStr(channel);
+						header_output_count = 1; // выводить "channel"
+					}
+					else
+					{ sngl_com_grid->Cells[cur_cell_col][0] = (header_output_count^=1) ? // циклическое изменение счетчика
+								IntToStr(channel) : UnicodeString("channel");}
 					sngl_com_grid->Cells[cur_cell_col][1] = "CMD" + IntToStr(com_num);
 					sngl_com_grid->ColCount += 1;
 
@@ -1001,7 +1031,7 @@ void PrintFreeZone_v2(TStrings* anlg_par_memo, TStringGrid* anlg_par_grid,
 						sngl_com_grid->Cells[cur_cell_col][n_kdr + title_rows_count] =  static_cast<int> (p_RK[channel]->fz[com_num][n_kdr]);
 
 					if( ++cur_cell_col < 0 )
-						output_error(" Error @ PrintFreeZone_v2() : current cell column number overflow");
+						output_error(UnicodeString(" Error @ PrintFreeZone_v2() : current cell column number overflow"));
 				}
 			}
 		}
@@ -1010,12 +1040,16 @@ void PrintFreeZone_v2(TStrings* anlg_par_memo, TStringGrid* anlg_par_grid,
 	if( sngl_com_grid->ColCount > title_cols_count )
 		sngl_com_grid->FixedCols = title_cols_count;
 	else
-		output_error(" Error @ PrintFreeZone_v2() : ! sngl_com_grid->ColCount > title_cols_count ");
+		output_error(UnicodeString(" Error @ PrintFreeZone_v2() :"
+			" Can't create header column - not enough columns "
+			"\n (! sngl_com_grid->ColCount > title_cols_count) "));
 
 	if( sngl_com_grid->RowCount > title_rows_count )
 		sngl_com_grid->FixedRows = title_rows_count;
 	else
-		output_error(" Error @ PrintFreeZone_v2() : ! sngl_com_grid->RowCount > title_rows_count ");
+		output_error(UnicodeString(" Error @ PrintFreeZone_v2() :"
+			" Can't create header row - not enough rows "
+			"\n	(! sngl_com_grid->RowCount > title_rows_count) "));
 }
 
 int data_load(const String fileCopy, const String cyclogram)
@@ -1030,7 +1064,7 @@ int data_load(const String fileCopy, const String cyclogram)
 		ReadCyclogram(cyclogram);            // chteNie ciklogpammu
 		if ((mas_bur_pi=(short *)malloc(sz_kdr)) == (short *)0) { // Ne vudeleNa namjat nod byfep kadpa faila-konii?
 			ErrObr(E_MEM_BUFKADR);             //!!! Ne pabotaet ???
-			output_error("\n vudeleNia namjati nod byfep kadpa faila-konii");
+			output_error(UnicodeString("\n oshibka vudeleNia namjati nod byfep kadpa faila-konii"));
 		}
 		mas_free_rk = (unsigned long *)((char *)mas_bur_pi+sz_bur_kdr); // iNicializacija ykazatelja Na free-zoNy dlja PK
 		mas_free_pi = (float *)mas_free_rk;  // iNicializacija ykazatelja Na free-zoNy dlja An
@@ -1049,13 +1083,13 @@ int data_load(const String fileCopy, const String cyclogram)
 	}
 	catch (Exception& exc)
 	{
-		output_error(" Some unhandled exception... ");
+		output_error(UnicodeString(" Some unhandled exception... "));
 		Application->ShowException(&exc);
 		return FL_ERR;
 	}
 	catch(...)
 	{
-		output_error(" Some unknown exception... ");
+		output_error(UnicodeString(" Some unknown exception... "));
 		return FL_ERR;
     }
 
@@ -1067,17 +1101,18 @@ void clean_up() {
 	close(d_fk);                         // zakputie faila-konii
 }
 
-// получение идентификатора канала в структуре p_AP
+/*// получение идентификатора канала в структуре p_AP
 String getChannelId(String str) {
 	int i1 = Pos(" ", str) + 1;
 	int i2 = Pos("(", str) - 3;
 	return str.SubString( i1, i2 - i1 );
-}
+}   */
 
-// получение индекса канала в структуре p_AP
+
+/*// получение индекса канала в структуре p_AP
 int getChannel(String id) {
 	for( int channel = 0; channel < maxChannel; channel++ )
 		if( p_AP[channel] != 0 && !strcmp(p_AP[channel]->p_id, AnsiString(id).c_str()) )
 			return channel;
 	return -1;
-}
+} */

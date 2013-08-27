@@ -3,7 +3,7 @@
 			<ProjectGuid>{939BE6E6-F5AB-471E-B2B3-A47A2C51C86D}</ProjectGuid>
 			<ProjectVersion>13.4</ProjectVersion>
 			<FrameworkType>VCL</FrameworkType>
-			<MainSource>OpiusForm.cpp</MainSource>
+			<MainSource>Flight data processing (GUI).cpp</MainSource>
 			<Base>True</Base>
 			<Config Condition="'$(Config)'==''">Debug</Config>
 			<Platform Condition="'$(Platform)'==''">Win32</Platform>
@@ -85,7 +85,7 @@
 		<PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
 			<VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
 			<UsePackages>false</UsePackages>
-			<LinkPackageStatics>rtl.lib;vcl.lib;Tee.lib;vclimg.lib;vclx.lib</LinkPackageStatics>
+			<LinkPackageStatics>rtl.lib;vcl.lib;Tee.lib;vclimg.lib;vclx.lib;bcbsmp.lib</LinkPackageStatics>
 			<VerInfo_Locale>1033</VerInfo_Locale>
 			<DynamicRTL>false</DynamicRTL>
 		</PropertyGroup>
@@ -94,14 +94,14 @@
 			<TASM_Debugging>None</TASM_Debugging>
 		</PropertyGroup>
 		<ItemGroup>
+			<CppCompile Include="Flight data processing (GUI).cpp">
+				<BuildOrder>0</BuildOrder>
+			</CppCompile>
 			<CppCompile Include="Main_Form_Unit.cpp">
 				<Form>MainForm</Form>
 				<FormType>dfm</FormType>
 				<DependentOn>Main_Form_Unit.h</DependentOn>
 				<BuildOrder>1</BuildOrder>
-			</CppCompile>
-			<CppCompile Include="OpiusForm.cpp">
-				<BuildOrder>0</BuildOrder>
 			</CppCompile>
 			<CppCompile Include="..\lib\flightDataProcessingForm.cpp">
 				<BuildOrder>5</BuildOrder>
@@ -137,7 +137,7 @@
 			<BorlandProject>
 				<CPlusPlusBuilder.Personality>
 					<Source>
-						<Source Name="MainSource">OpiusForm.cpp</Source>
+						<Source Name="MainSource">Flight data processing (GUI).cpp</Source>
 					</Source>
 					<VersionInfo>
 						<VersionInfo Name="IncludeVerInfo">False</VersionInfo>
@@ -176,6 +176,7 @@
 				<Platforms>
 					<Platform value="Win32">True</Platform>
 				</Platforms>
+				<ModelSupport>False</ModelSupport>
 			</BorlandProject>
 			<ProjectFileVersion>12</ProjectFileVersion>
 		</ProjectExtensions>

@@ -119,6 +119,7 @@ object MainForm: TMainForm
         Align = alTop
         BorderStyle = bsNone
         Color = clInfoBk
+        Constraints.MaxHeight = 50
         Constraints.MinHeight = 30
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clInfoText
@@ -138,23 +139,22 @@ object MainForm: TMainForm
       Caption = 'Analog Parameters'
       ImageIndex = 3
       object Splitter2: TSplitter
-        Left = 320
+        Left = 200
         Top = 0
         Height = 305
         Color = clHighlight
         ParentColor = False
         ResizeStyle = rsUpdate
-        ExplicitLeft = 200
       end
       object anlgGrid: TStringGrid
-        Left = 323
+        Left = 203
         Top = 0
-        Width = 451
+        Width = 571
         Height = 305
         Align = alClient
         BorderStyle = bsNone
         ColCount = 1
-        DefaultColWidth = 50
+        DefaultColWidth = 70
         DefaultRowHeight = 20
         FixedCols = 0
         RowCount = 1
@@ -167,12 +167,13 @@ object MainForm: TMainForm
       object anlgMemo: TMemo
         Left = 0
         Top = 0
-        Width = 320
+        Width = 200
         Height = 305
         Align = alLeft
         BorderStyle = bsNone
         Color = clInfoBk
-        Constraints.MinWidth = 200
+        Constraints.MaxWidth = 350
+        Constraints.MinWidth = 100
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clInfoText
         Font.Height = -11
@@ -210,7 +211,8 @@ object MainForm: TMainForm
         Align = alLeft
         BorderStyle = bsNone
         Color = clInfoBk
-        Constraints.MinWidth = 200
+        Constraints.MaxWidth = 250
+        Constraints.MinWidth = 100
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clInfoText
         Font.Height = -11
@@ -253,6 +255,7 @@ object MainForm: TMainForm
         Color = clHighlight
         ParentColor = False
         ResizeStyle = rsUpdate
+        OnMoved = Splitter1Moved
         ExplicitLeft = 296
         ExplicitTop = 32
       end
@@ -274,6 +277,7 @@ object MainForm: TMainForm
         ItemHeight = 13
         ParentFont = False
         TabOrder = 0
+        OnClick = checkListChannelClick
       end
       object Panel2: TPanel
         Left = 103
@@ -287,105 +291,221 @@ object MainForm: TMainForm
           Left = 0
           Top = 0
           Width = 671
-          Height = 280
+          Height = 264
           Title.Text.Strings = (
             '')
           View3D = False
           Align = alClient
           BevelOuter = bvNone
+          ParentShowHint = False
+          ShowHint = True
           TabOrder = 0
+          ExplicitLeft = 32
+          ExplicitTop = 40
           PrintMargins = (
             15
-            33
+            29
             15
-            33)
-          ColorPaletteIndex = 1
+            29)
+          ColorPaletteIndex = 13
+          object add_random_channel: TButton
+            Left = 79
+            Top = 0
+            Width = 66
+            Height = 21
+            Hint = 'Add random channel to chart'
+            Caption = 'Add random'
+            ParentShowHint = False
+            ShowHint = True
+            TabOrder = 0
+            OnClick = add_random_channelClick
+          end
+          object uncheck_all_channels: TButton
+            Left = 6
+            Top = 0
+            Width = 67
+            Height = 21
+            Hint = 'Uncheck all channels in list'
+            Caption = 'Uncheck all'
+            ParentShowHint = False
+            ShowHint = True
+            TabOrder = 1
+            OnClick = uncheck_all_channelsClick
+          end
         end
         object Panel3: TPanel
           Left = 0
-          Top = 280
+          Top = 264
           Width = 671
-          Height = 25
+          Height = 41
           Align = alBottom
           BevelOuter = bvNone
           TabOrder = 1
           DesignSize = (
             671
-            25)
-          object Label2: TLabel
-            Left = 98
-            Top = 4
-            Width = 25
-            Height = 13
-            Caption = 'Scale'
-          end
-          object Label3: TLabel
-            Left = 198
-            Top = 4
-            Width = 31
-            Height = 13
-            Caption = 'Offset'
-          end
-          object ChannelBox: TComboBox
-            Left = 6
+            41)
+          object channel_scale_n_offset: TGroupBox
+            Left = 3
             Top = 1
-            Width = 78
-            Height = 22
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -12
-            Font.Name = 'Tahoma'
-            Font.Style = []
-            ParentFont = False
+            Width = 470
+            Height = 40
+            Anchors = [akLeft, akTop, akRight, akBottom]
+            Caption = 'Channel scale and offset'
             TabOrder = 0
+            DesignSize = (
+              470
+              40)
+            object Label2: TLabel
+              Left = 145
+              Top = 16
+              Width = 25
+              Height = 13
+              Anchors = [akTop, akRight, akBottom]
+              Caption = 'Scale'
+            end
+            object Label3: TLabel
+              Left = 242
+              Top = 16
+              Width = 31
+              Height = 13
+              Anchors = [akTop, akRight, akBottom]
+              Caption = 'Offset'
+            end
+            object ChannelBox: TComboBox
+              Left = 3
+              Top = 13
+              Width = 134
+              Height = 22
+              Hint = 'Channel to edit'
+              Style = csDropDownList
+              Anchors = [akLeft, akTop, akRight, akBottom]
+              DropDownCount = 22
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -12
+              Font.Name = 'Tahoma'
+              Font.Style = []
+              ParentFont = False
+              ParentShowHint = False
+              ShowHint = True
+              TabOrder = 0
+              OnChange = ChannelBoxChange
+            end
+            object scale_edit: TEdit
+              Left = 175
+              Top = 12
+              Width = 61
+              Height = 21
+              Anchors = [akTop, akRight, akBottom]
+              TabOrder = 1
+              Text = '1'
+              OnEnter = scale_editEnter
+              OnKeyPress = scale_editKeyPress
+            end
+            object offset_edit: TEdit
+              Left = 280
+              Top = 12
+              Width = 50
+              Height = 21
+              Anchors = [akTop, akRight, akBottom]
+              Ctl3D = True
+              ParentCtl3D = False
+              TabOrder = 2
+              Text = '0'
+              OnKeyPress = offset_editKeyPress
+            end
+            object Reset_btn: TBitBtn
+              Left = 403
+              Top = 12
+              Width = 62
+              Height = 21
+              Hint = 'Reset current channel scale and offset'
+              Anchors = [akTop, akRight, akBottom]
+              Caption = 'Reset'
+              Kind = bkAbort
+              NumGlyphs = 2
+              ParentShowHint = False
+              ShowHint = True
+              TabOrder = 3
+            end
+            object scale_btn: TBitBtn
+              Left = 336
+              Top = 12
+              Width = 65
+              Height = 21
+              Hint = 'Scale current channle'
+              Anchors = [akTop, akRight, akBottom]
+              Caption = 'Scale'
+              Glyph.Data = {
+                DE010000424DDE01000000000000760000002800000024000000120000000100
+                0400000000006801000000000000000000001000000000000000000000000000
+                80000080000000808000800000008000800080800000C0C0C000808080000000
+                FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333333333
+                3333333333333333333333330000333333333333333333333333F33333333333
+                00003333344333333333333333388F3333333333000033334224333333333333
+                338338F3333333330000333422224333333333333833338F3333333300003342
+                222224333333333383333338F3333333000034222A22224333333338F338F333
+                8F33333300003222A3A2224333333338F3838F338F33333300003A2A333A2224
+                33333338F83338F338F33333000033A33333A222433333338333338F338F3333
+                0000333333333A222433333333333338F338F33300003333333333A222433333
+                333333338F338F33000033333333333A222433333333333338F338F300003333
+                33333333A222433333333333338F338F00003333333333333A22433333333333
+                3338F38F000033333333333333A223333333333333338F830000333333333333
+                333A333333333333333338330000333333333333333333333333333333333333
+                0000}
+              ModalResult = 6
+              NumGlyphs = 2
+              ParentShowHint = False
+              ShowHint = True
+              TabOrder = 4
+            end
           end
-          object CSpinEdit1: TCSpinEdit
-            Left = 124
-            Top = 1
-            Width = 61
-            Height = 22
+          object auto_scale_all_btn: TBitBtn
+            Tag = 1
+            Left = 474
+            Top = 12
+            Width = 113
+            Height = 25
+            Hint = 'Change auto scale all channels (ON/OFF)'
+            Anchors = [akTop, akRight, akBottom]
+            Caption = 'Auto Scale ON'
+            Glyph.Data = {
+              DE010000424DDE01000000000000760000002800000024000000120000000100
+              0400000000006801000000000000000000001000000000000000000000000000
+              80000080000000808000800000008000800080800000C0C0C000808080000000
+              FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333333333
+              3333333333333333333333330000333333333333333333333333F33333333333
+              00003333344333333333333333388F3333333333000033334224333333333333
+              338338F3333333330000333422224333333333333833338F3333333300003342
+              222224333333333383333338F3333333000034222A22224333333338F338F333
+              8F33333300003222A3A2224333333338F3838F338F33333300003A2A333A2224
+              33333338F83338F338F33333000033A33333A222433333338333338F338F3333
+              0000333333333A222433333333333338F338F33300003333333333A222433333
+              333333338F338F33000033333333333A222433333333333338F338F300003333
+              33333333A222433333333333338F338F00003333333333333A22433333333333
+              3338F38F000033333333333333A223333333333333338F830000333333333333
+              333A333333333333333338330000333333333333333333333333333333333333
+              0000}
+            ModalResult = 1
+            NumGlyphs = 2
+            ParentShowHint = False
+            ShowHint = True
             TabOrder = 1
+            OnClick = auto_scale_all_btnClick
           end
-          object CSpinEdit2: TCSpinEdit
-            Left = 231
-            Top = 1
-            Width = 59
-            Height = 22
+          object reset_all_btn: TBitBtn
+            Left = 590
+            Top = 12
+            Width = 75
+            Height = 25
+            Hint = 'Reset all channels scale and offset'
+            Anchors = [akTop, akRight, akBottom]
+            Caption = 'Reset All'
+            Kind = bkAbort
+            NumGlyphs = 2
+            ParentShowHint = False
+            ShowHint = True
             TabOrder = 2
-          end
-          object Button1: TButton
-            Left = 307
-            Top = 0
-            Width = 39
-            Height = 25
-            Caption = 'Scale'
-            TabOrder = 3
-          end
-          object Button2: TButton
-            Left = 352
-            Top = 0
-            Width = 50
-            Height = 25
-            Caption = 'Default'
-            TabOrder = 4
-          end
-          object Button3: TButton
-            Left = 608
-            Top = 0
-            Width = 58
-            Height = 25
-            Anchors = [akTop, akRight]
-            Caption = 'Default all'
-            TabOrder = 5
-          end
-          object Button4: TButton
-            Left = 552
-            Top = 0
-            Width = 50
-            Height = 25
-            Anchors = [akTop, akRight]
-            Caption = 'Scale all'
-            TabOrder = 6
           end
         end
       end
@@ -427,7 +547,7 @@ object MainForm: TMainForm
         390
         22)
       object fcButton: TSpeedButton
-        Left = 302
+        Left = 286
         Top = 0
         Width = 90
         Height = 22
@@ -440,6 +560,7 @@ object MainForm: TMainForm
         Font.Style = []
         ParentFont = False
         OnClick = openButtonClick
+        ExplicitLeft = 296
       end
     end
     object cPanel: TPanel
@@ -466,7 +587,7 @@ object MainForm: TMainForm
       TabOrder = 1
       object cButton: TSpeedButton
         Tag = 1
-        Left = 0
+        Left = 5
         Top = 0
         Width = 90
         Height = 22

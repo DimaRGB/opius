@@ -44,7 +44,9 @@ void  ReadSSFK();
 //void  WriteParam(int, int, int);
 //void  WriteSSFK(int);
 
-void PrintFreeZone_v2(TStrings* anlg_par_memo, TStringGrid* anlg_par_grid, TStrings* sngl_com_memo, TStringGrid* sngl_com_grid, TStrings* checkStrings);
+void PrintFreeZone_v2(TStrings* anlg_par_memo, TStringGrid* anlg_par_grid,
+			TStrings* sngl_com_memo, TStringGrid* sngl_com_grid,
+			TStrings* checkStrings, TStrings* ChannelBox_strings);
 
 int data_load(const String fileCopy, const String cyclogram);
 
@@ -137,5 +139,18 @@ extern int d_fk,         // deskpintop faila-konii
 					 sz_spb;        // pazmep synepbloka faila-konii (byte)
 //------------var_ext.H
 
+//---------------------------------------------------------------------------
+// содержит информацию про параметр, значения и настройки
+struct Analog_parameter
+{
+	int number;
+	std::string id;
+	std::string name;
+	std::vector<double> values;
+	double scale;
+	double offset;
+	bool enabled; // отображается на графике?
+};
 
+extern std::vector<Analog_parameter> anlg_param_vec;
 

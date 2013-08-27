@@ -1,0 +1,34 @@
+Graphics (chart with series) improvements, GUI changes and other.
+
+Graphics changes:
+Scaling - in progress...
+Added Color_generator class, which can generate random color, analyse it's brightness, and generate more comfortable color for series on chart.
+Custom generated color are giving to each added series.
+Added Analog_parameter structure, which contains analog parameter data, info and settings.
+3 random series are adding to chart at every program launch.
+
+GUI changes:
+Added 'Uncheck all' button, which deletes all series.
+Added 'Add random' button, which adds random series to chart.
+Improved titles of grids.
+Improved memos sizes;
+Constraints for checkListChannel are dynamically calculating.
+Chart's bottom panel are dynamically resizing.
+OpenFile panel's captions now contain short path to file (that fits to window width).
+Functions for showing messages can recieve UnicodeString as well as standard string.
+Root directory for open file dialog changed to current (default) program folder.
+
+Other changes:
+Corrected Int to String convertion, conversions between standard and unicode strings.
+Randomizer starts at program's launch.
+checkListChannelClickCheck function refactored and optimized.
+Corrected some gramatic errors in texts.
+
+DON'T DO THIS:
+Don't make program remember last added series to chart at it's start!
+Auto Scale must always ON at start!
+Don't store path to file in panel caption.
+
+
+
+

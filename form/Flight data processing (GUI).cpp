@@ -7,6 +7,7 @@
 
 
 
+
 USEFORM("Main_Form_Unit.cpp", MainForm);
 //---------------------------------------------------------------------------
 WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int) {

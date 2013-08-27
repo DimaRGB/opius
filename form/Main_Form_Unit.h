@@ -17,6 +17,11 @@
 #include <Vcl.CheckLst.hpp>
 #include <Vcl.Buttons.hpp>
 #include "cspin.h"
+
+#include <ctime>
+#include <vector>
+#include <string>
+
 //---------------------------------------------------------------------------
 class TMainForm : public TForm {
 __published:	// IDE-managed Components
@@ -48,20 +53,33 @@ __published:	// IDE-managed Components
 	TPanel *Panel2;
 	TChart *Chart;
 	TPanel *Panel3;
+	TButton *add_random_channel;
+	TButton *uncheck_all_channels;
+	TGroupBox *channel_scale_n_offset;
 	TComboBox *ChannelBox;
-	TCSpinEdit *CSpinEdit1;
 	TLabel *Label2;
-	TCSpinEdit *CSpinEdit2;
+	TEdit *scale_edit;
 	TLabel *Label3;
-	TButton *Button1;
-	TButton *Button2;
-	TButton *Button3;
-	TButton *Button4;
+	TEdit *offset_edit;
+	TBitBtn *auto_scale_all_btn;
+	TBitBtn *Reset_btn;
+	TBitBtn *reset_all_btn;
+	TBitBtn *scale_btn;
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall FormDestroy(TObject *Sender);
 	void __fastcall FormResize(TObject *Sender);
 	void __fastcall openButtonClick(TObject *Sender);
 	void __fastcall checkListChannelClickCheck(TObject *Sender);
+	void __fastcall scale_editKeyPress(TObject *Sender, System::WideChar &Key);
+	void __fastcall offset_editKeyPress(TObject *Sender, System::WideChar &Key);
+	void __fastcall uncheck_all_channelsClick(TObject *Sender);
+	void __fastcall add_random_channelClick(TObject *Sender);
+	void __fastcall checkListChannelClick(TObject *Sender);
+	void __fastcall ChannelBoxChange(TObject *Sender);
+	void __fastcall auto_scale_all_btnClick(TObject *Sender);
+	void __fastcall Splitter1Moved(TObject *Sender);
+	void __fastcall scale_editEnter(TObject *Sender);
+
 
 private:	// User declarations
 public:		// User declarations
@@ -71,9 +89,23 @@ public:		// User declarations
 	void __fastcall clearGrid(TStringGrid* grid);
 	void __fastcall clearAll();
 	void __fastcall defaultFill();
+	void add_series(const int index);
+	void start_init();
+	void change_check_list_channel_item(const int index);
+
+	// нормализует заголовок панели файлов
+	void normalize_caption();
+
+	// укорачивает длину пути к файлу
+	UnicodeString normalize_path_length(UnicodeString text, const int font_size,
+	const int space_width);
+
+	// производит коррекцию цвета для лучшего воссприятия
+	TColor optimal_rand_color();
 };
 
 //---------------------------------------------------------------------------
 extern PACKAGE TMainForm *MainForm;
 //---------------------------------------------------------------------------
 #endif
+

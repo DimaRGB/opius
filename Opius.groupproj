@@ -3,7 +3,7 @@
 			<ProjectGuid>{B23A8E4D-F45C-4F72-9789-0538D52331FC}</ProjectGuid>
 		</PropertyGroup>
 		<ItemGroup>
-			<Projects Include="form\OpiusForm.cbproj">
+			<Projects Include="form\Flight data processing (GUI).cbproj">
 				<Dependencies/>
 			</Projects>
 			<Projects Include="console\OpiusConsole.cbproj">
@@ -17,14 +17,14 @@
 				<Default.Personality/>
 			</BorlandProject>
 		</ProjectExtensions>
-		<Target Name="OpiusForm">
-			<MSBuild Projects="form\OpiusForm.cbproj"/>
+		<Target Name="Flight data processing (GUI)">
+			<MSBuild Projects="form\Flight data processing (GUI).cbproj"/>
 		</Target>
-		<Target Name="OpiusForm:Clean">
-			<MSBuild Projects="form\OpiusForm.cbproj" Targets="Clean"/>
+		<Target Name="Flight data processing (GUI):Clean">
+			<MSBuild Projects="form\Flight data processing (GUI).cbproj" Targets="Clean"/>
 		</Target>
-		<Target Name="OpiusForm:Make">
-			<MSBuild Projects="form\OpiusForm.cbproj" Targets="Make"/>
+		<Target Name="Flight data processing (GUI):Make">
+			<MSBuild Projects="form\Flight data processing (GUI).cbproj" Targets="Make"/>
 		</Target>
 		<Target Name="OpiusConsole">
 			<MSBuild Projects="console\OpiusConsole.cbproj"/>
@@ -36,13 +36,13 @@
 			<MSBuild Projects="console\OpiusConsole.cbproj" Targets="Make"/>
 		</Target>
 		<Target Name="Build">
-			<CallTarget Targets="OpiusForm;OpiusConsole"/>
+			<CallTarget Targets="Flight data processing (GUI);OpiusConsole"/>
 		</Target>
 		<Target Name="Clean">
-			<CallTarget Targets="OpiusForm:Clean;OpiusConsole:Clean"/>
+			<CallTarget Targets="Flight data processing (GUI):Clean;OpiusConsole:Clean"/>
 		</Target>
 		<Target Name="Make">
-			<CallTarget Targets="OpiusForm:Make;OpiusConsole:Make"/>
+			<CallTarget Targets="Flight data processing (GUI):Make;OpiusConsole:Make"/>
 		</Target>
 		<Import Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')" Project="$(BDS)\Bin\CodeGear.Group.Targets"/>
 	</Project>
