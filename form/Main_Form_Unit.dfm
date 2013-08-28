@@ -34,7 +34,7 @@ object MainForm: TMainForm
     Top = 24
     Width = 784
     Height = 338
-    ActivePage = TabSheet5
+    ActivePage = TabSheet1
     Align = alClient
     Constraints.MinWidth = 50
     Style = tsFlatButtons
@@ -50,7 +50,7 @@ object MainForm: TMainForm
         Height = 305
         Align = alClient
         BorderStyle = bsNone
-        Color = clInfoBk
+        Color = clWhite
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clInfoText
         Font.Height = -11
@@ -118,7 +118,7 @@ object MainForm: TMainForm
         Height = 30
         Align = alTop
         BorderStyle = bsNone
-        Color = clInfoBk
+        Color = clBtnFace
         Constraints.MaxHeight = 50
         Constraints.MinHeight = 30
         Font.Charset = DEFAULT_CHARSET
@@ -171,7 +171,7 @@ object MainForm: TMainForm
         Height = 305
         Align = alLeft
         BorderStyle = bsNone
-        Color = clInfoBk
+        Color = clBtnFace
         Constraints.MaxWidth = 350
         Constraints.MinWidth = 100
         Font.Charset = DEFAULT_CHARSET
@@ -210,7 +210,7 @@ object MainForm: TMainForm
         Height = 305
         Align = alLeft
         BorderStyle = bsNone
-        Color = clInfoBk
+        Color = clBtnFace
         Constraints.MaxWidth = 250
         Constraints.MinWidth = 100
         Font.Charset = DEFAULT_CHARSET
@@ -267,7 +267,7 @@ object MainForm: TMainForm
         OnClickCheck = checkListChannelClickCheck
         Align = alLeft
         BorderStyle = bsNone
-        Color = clInfoBk
+        Color = clBtnFace
         Constraints.MinWidth = 100
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clInfoText
@@ -300,8 +300,6 @@ object MainForm: TMainForm
           ParentShowHint = False
           ShowHint = True
           TabOrder = 0
-          ExplicitLeft = 32
-          ExplicitTop = 40
           PrintMargins = (
             15
             29
@@ -532,7 +530,6 @@ object MainForm: TMainForm
       BorderWidth = 4
       BorderStyle = bsSingle
       Caption = 'fcPanel'
-      Color = clInfoBk
       Ctl3D = False
       Font.Charset = ANSI_CHARSET
       Font.Color = clHighlight
@@ -547,7 +544,7 @@ object MainForm: TMainForm
         390
         22)
       object fcButton: TSpeedButton
-        Left = 286
+        Left = 284
         Top = 0
         Width = 90
         Height = 22
@@ -574,7 +571,6 @@ object MainForm: TMainForm
       BorderWidth = 4
       BorderStyle = bsSingle
       Caption = 'cPanel'
-      Color = clInfoBk
       Ctl3D = False
       Font.Charset = ANSI_CHARSET
       Font.Color = clHighlight

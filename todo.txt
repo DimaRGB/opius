@@ -15,4 +15,5 @@ to do:
 - add zoom and reset zoom to chart
 - remove and rezoom +1 division to min and max Y
 - set floating info chart
+- make icon
 - add about info

@@ -103,16 +103,18 @@ UnicodeString TMainForm::normalize_path_length(UnicodeString text,
 		UnicodeString cur_dir;
 		int cur_beg = 1;
 		int cur_end = 1;
-		while(cur_end <= text.Length()) // разбивка пути на папки
+		while(cur_end <= text.Length()) // разбивка пути на папки (части)
 		{
-			if(text[cur_end] == WideChar('\\') || text[cur_end] == WideChar('/')
-				|| cur_end == text.Length())
+			if(text[cur_end] == WideChar('\\') || text[cur_end] == WideChar('/'))
 			{
 				path.push_back(text.SubString(cur_beg,cur_end-cur_beg));
 				cur_beg = cur_end + 1;
-            }
+			}
         cur_end++;
 		}
+		if(cur_beg<= text.Length()) // осталась последняя часть
+		{ path.push_back(text.SubString(cur_beg,text.Length()-cur_beg + 1));}
+
 		bool improved = false;
 		for (unsigned int i=0; i<path.size(); i++)  // сокращение длиных папок
 		{
