@@ -149,7 +149,8 @@ struct Analog_parameter
 	std::vector<double> values;
 	double scale;
 	double offset;
-	bool enabled; // отображается на графике?
+	TColor color;
+//	bool enabled; // отображается на графике?
 };
 
 extern std::vector<Analog_parameter> anlg_param_vec;

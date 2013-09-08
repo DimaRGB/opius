@@ -941,7 +941,8 @@ void PrintFreeZone_v2(TStrings* anlg_par_memo, TStringGrid* anlg_par_grid,
 
 			anlg_param.scale = 1;
 			anlg_param.offset = 0;
-			anlg_param.enabled = false;
+			anlg_param.color = optimal_rand_color();
+ //			anlg_param.enabled = false;
 			anlg_param_vec.push_back(anlg_param);
 		}
 	}

@@ -28,6 +28,8 @@ const String curDir = GetCurrentDir() + "\\";
 const String iniFile = curDir + "OpiusForm.ini";
 bool isCorrect = false; // нельзя удалять память, если она не выделена
 
+bool checkList_changed = false;
+
 // Form
 __fastcall TMainForm::TMainForm(TComponent* Owner) : TForm(Owner) {}
 
@@ -173,7 +175,10 @@ void __fastcall TMainForm::loadAndPrintAll() {
 
 	if( !checkFileName(fc_path, 0) ||
 		!checkFileName(c_path, 1) )
+	{
+		defaultFill();
 		return;
+	}
 
 	Pages->TabIndex = 0;
 	clearAll();
@@ -188,9 +193,14 @@ void __fastcall TMainForm::loadAndPrintAll() {
 		for(int i=0; i<rand_series_at_start; i++)
 		{ add_random_channelClick(0);}
 		isCorrect = true;
+		output_label->Caption = "Data loaded ";
 		return;
-	} else
+	}
+	else
+	{
 		defaultFill();
+		output_label->Caption = "Data not loaded ";
+	}
 }
 
 // Open Buttons
@@ -198,7 +208,8 @@ void __fastcall TMainForm::openButtonClick(TObject *Sender) {
 	TButton* button = static_cast<TButton*>(Sender);
 
     openDialog->InitialDir = curDir;
-	if( openDialog->Execute() ) {
+	if( openDialog->Execute() )
+	{
 		if(	checkFileName(openDialog->FileName, button->Tag) )
 			if( button->Tag )
 			{
@@ -213,6 +224,8 @@ void __fastcall TMainForm::openButtonClick(TObject *Sender) {
 
 		loadAndPrintAll();
 	}
+	else
+	{ output_label->Caption = " Files not selected ";}
 }
 
 // Build graphics
@@ -220,30 +233,61 @@ void __fastcall TMainForm::checkListChannelClickCheck(TObject *Sender) {
 	if( isCorrect )
 	{
 		int index = checkListChannel->ItemIndex;
-//		String name = checkListChannel->Items->Strings[index];
-//		String id = getChannelId(name);
-		String id = UnicodeString(anlg_param_vec[index].id.c_str());
 
-		if( checkListChannel->Checked[index] ) {
-//			int channel = getChannel(id);
-//			int channel = anlg_param_vec[index].number;
+		if( checkListChannel->Checked[index] )
+		{
 			add_series(index);
+			output_label->Caption = " Series added ";
 		}
-		else {
-			for( int i = 0; i < Chart->SeriesCount(); i++ ) {
-				if( !CompareStr(Chart->Series[i]->Name, id) ) {
-					Chart->Series[i]->Free();
-					break;
-				}
-			}
+		else
+		{
+			delete_series(index);
+			output_label->Caption = " Series deleted ";
 		}
 	}
 	else {
 		output_error(UnicodeString(" Data not loaded! Choose correct files "));
-    }
+		output_label->Caption = "Data not loaded! Choose correct files ";
+	}
+	checkList_changed = true;
 }
 
+void TMainForm::delete_series(const int index)
+{
+	UnicodeString id = anlg_param_vec[index].id.c_str();
+	for( int i = 0; i < Chart->SeriesCount(); i++ )
+	{
+		if( !CompareStr(Chart->Series[i]->Name, id) )
+		{
+			Chart->Series[i]->Free();
+			break;
+		}
+	}
+}
+
+// use it to add series
 void TMainForm::add_series(const int index)
+{
+    checkListChannel->Checked[index] = true;
+
+	if(auto_scale_all_btn->Tag)
+	{
+	  auto_scale_all();
+	  for(int i=0; i<checkListChannel->Items->Count; i++)
+	  {
+		  if(checkListChannel->Checked[i])
+		  {
+		  	delete_series(i);
+			draw_series(i);
+		  }
+      }
+	}
+	else
+	{ draw_series(index);}
+}
+
+// don't use it directly
+void TMainForm::draw_series(const int index)
 {
 	TChartSeries *newSeries = new TLineSeries(Chart);
 	newSeries->Name = UnicodeString(anlg_param_vec[index].id.c_str());
@@ -256,18 +300,18 @@ void TMainForm::add_series(const int index)
 		newSeries->AddXY(frame,y);
 	}
 
-	newSeries->Color = optimal_rand_color();
+	newSeries->Color = anlg_param_vec[index].color;
 	Chart->AddSeries(newSeries);
+}
+
+void TMainForm::auto_scale_all()
+{
+
 }
 
 // производит коррекцию цвета для лучшего воссприятия
 
-TColor TMainForm::optimal_rand_color()
-{
-	Color_generator color_gen;
-	color_gen.generate_rand_color(Color_generator::optimal_bright);
-	return color_gen.get_color();
-}
+
 
 void __fastcall TMainForm::clearGrid(TStringGrid* grid) {
 	for( int i = 0; i < grid->RowCount; i++ )
@@ -292,6 +336,8 @@ void __fastcall TMainForm::clearAll() {
 	ChannelBox->Clear();
 	while( Chart->SeriesCount() )
 		Chart->Series[0]->Free();
+
+	output_label->Caption = "Data cleared";
 }
 
 void __fastcall TMainForm::defaultFill() {
@@ -317,11 +363,17 @@ void __fastcall TMainForm::defaultFill() {
 
 	snglMemo->Lines->Add("Разовые Команды.");
 	snglMemo->Lines->Add("Вывод значений разовых команд.");
+
+	output_label->Caption = " Графики аналоговых параметров ";
 }
 
 void __fastcall TMainForm::scale_editKeyPress(TObject *Sender, System::WideChar &Key)
 {
-	if( !(isdigit(Key) || Key=='.' || Key==vkBack))
+	if(Key=='.')
+	{
+		Key = ',';
+	}
+	else if( !(isdigit(Key) || Key==',' || Key==vkBack || Key=='-'))
 	{
 		Key=0;
 		MessageBeep(-1);
@@ -332,7 +384,9 @@ void __fastcall TMainForm::scale_editKeyPress(TObject *Sender, System::WideChar 
 
 void __fastcall TMainForm::offset_editKeyPress(TObject *Sender, System::WideChar &Key)
 {
-	if( !(isdigit(Key) || Key=='.' || Key==vkBack))
+	if(Key=='.')
+	{ Key = ','; }
+	else if( !(isdigit(Key) || Key==',' || Key==vkBack || Key=='-'))
 	{
 		Key=0;
 		MessageBeep(-1);
@@ -347,6 +401,7 @@ void __fastcall TMainForm::uncheck_all_channelsClick(TObject *Sender)
 	checkListChannel->CheckAll(cbUnchecked,false,false);
 	while(Chart->SeriesCount())
 	{ Chart->Series[0]->Free();}
+	output_label->Caption = " All series deleted ";
 }
 //---------------------------------------------------------------------------
 
@@ -360,7 +415,10 @@ void __fastcall TMainForm::add_random_channelClick(TObject *Sender)
 	}
 
 	if(unchecked.size() == 0) // нет неотмеченых
-	{ return;}
+	{
+		output_label->Caption = " All series already added ";
+		return;
+	}
 	else
 	{
 	  int random = rand() % unchecked.size();
@@ -368,6 +426,7 @@ void __fastcall TMainForm::add_random_channelClick(TObject *Sender)
 	  add_series(unchecked[random]);
 	  change_check_list_channel_item(unchecked[random]);
 	  checkListChannel->ItemIndex = unchecked[random];
+	  output_label->Caption = " Series added ";
 	}
 }
 //---------------------------------------------------------------------------
@@ -382,6 +441,10 @@ void TMainForm::start_init()
 void __fastcall TMainForm::checkListChannelClick(TObject *Sender)
 {
 	change_check_list_channel_item(checkListChannel->ItemIndex);
+	if(!checkList_changed)
+	{ output_label->Caption = "";}
+	else
+	{checkList_changed = false;}
 }
 //---------------------------------------------------------------------------
 
@@ -397,7 +460,8 @@ void TMainForm::change_check_list_channel_item(const int index)
 
 void __fastcall TMainForm::ChannelBoxChange(TObject *Sender)
 {
-    change_check_list_channel_item(ChannelBox->ItemIndex);
+	change_check_list_channel_item(ChannelBox->ItemIndex);
+	output_label->Caption = "";
 }
 //---------------------------------------------------------------------------
 
@@ -417,7 +481,9 @@ void __fastcall TMainForm::auto_scale_all_btnClick(TObject *Sender)
 		auto_scale_all_btn->Kind = bkOK;
 		auto_scale_all_btn->Caption = "Auto Scale ON";
 		auto_scale_all_btn->Tag = 1;
-    }
+	}
+
+	output_label->Caption = "";
 }
 //---------------------------------------------------------------------------
 
@@ -435,10 +501,126 @@ void __fastcall TMainForm::Splitter1Moved(TObject *Sender)
 //---------------------------------------------------------------------------
 
 
-void __fastcall TMainForm::scale_editEnter(TObject *Sender)
+
+
+void __fastcall TMainForm::scale_btnClick(TObject *Sender)
 {
-//	edfsdf
+	if(isCorrect)
+	{
+		int index = ChannelBox->ItemIndex;
+
+		bool all_correct = true;
+
+		try
+		{
+			double new_scale = StrToFloat(scale_edit->Text);
+			anlg_param_vec[index].scale = new_scale;
+			output_label->Caption = " Series scaled ";
+		}
+		catch (EConvertError&)
+		{
+			scale_edit->Text = FloatToStr(anlg_param_vec[index].scale);
+			output_label->Caption = " Incorrect input ";
+ 			all_correct = false;
+		}
+
+		try
+		{
+			double new_offset = StrToFloat(offset_edit->Text);
+			anlg_param_vec[index].offset = new_offset;
+			if(all_correct)
+			{ output_label->Caption = " Series scaled ";}
+		}
+		catch(EConvertError&)
+		{
+			offset_edit->Text = FloatToStr(anlg_param_vec[index].offset);
+			output_label->Caption = " Incorrect input ";
+			all_correct = false;   // for nothing
+		}
+
+		if(checkListChannel->Checked[index])
+		{
+			delete_series(index);
+        }
+
+		add_series(index);
+		checkListChannel->Checked[index] = true;
+		checkListChannel->ItemIndex = index;
+
+	}
+	else
+	{ output_label->Caption = " Data not loaded! "; }
+
 }
 //---------------------------------------------------------------------------
 
+void __fastcall TMainForm::Reset_btnClick(TObject *Sender)
+{
+	if(isCorrect)
+	{
+		int index = ChannelBox->ItemIndex;
+
+		anlg_param_vec[index].scale = 1;
+		anlg_param_vec[index].offset = 0;
+
+		scale_edit->Text = "1";
+		offset_edit->Text = "0";
+
+		output_label->Caption = " Series reseted ";
+
+		if(checkListChannel->Checked[index])
+		{
+			delete_series(index);
+			add_series(index);
+		}
+	}
+	else
+	{ output_label->Caption = " Data not loaded! ";}
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TMainForm::reset_all_btnClick(TObject *Sender)
+{
+	if(isCorrect)
+	{
+		for(int i=0; i<anlg_param_vec.size(); i++)
+		{
+			anlg_param_vec[i].scale = 1;
+			anlg_param_vec[i].offset = 0;
+
+			if(checkListChannel->Checked[i])
+			{
+			  delete_series(i);
+			  add_series(i);
+			}
+		}
+
+		scale_edit->Text = "1";
+		offset_edit->Text = "0";
+
+		output_label->Caption = " All series reseted ";
+	}
+	else
+	{ output_label->Caption = " Data not loaded! ";}
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TMainForm::change_color_btnClick(TObject *Sender)
+{
+	if(isCorrect)
+	{
+		int index = checkListChannel->ItemIndex;
+
+		if(checkListChannel->Checked[index])
+		{
+			anlg_param_vec[index].color = optimal_rand_color();
+			delete_series(index);
+			draw_series(index);
+			output_label->Caption = "Color changed ";
+		}
+	}
+	else
+	{ output_label->Caption = " Data not loaded! ";}
+}
+//---------------------------------------------------------------------------
 

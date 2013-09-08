@@ -183,3 +183,6 @@ public:
 	UnicodeString get_color_info_full();
 	UnicodeString get_color_info();
 };
+
+// производит коррекцию цвета для лучшего воссприятия
+TColor optimal_rand_color();

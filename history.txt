@@ -29,4 +29,20 @@ Don't make program remember last added series to chart at it's start!
 Auto Scale must always ON at start!
 Don't store path to file in panel caption.
 
+===============================================================================
+
+============================2013.08.28=========================================
+
+GUI changes, bug fixes:
+Fixed bug with OpenFile panel's caption (missed last letter).
+Changed colors of some components.
+
+DON'T DO THIS:
+Don't make program remember last added series to chart at it's start!
+Auto Scale must always ON at start!
+Don't store path to file in panel caption.
+
+
+
+
 

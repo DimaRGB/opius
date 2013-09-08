@@ -1,6 +1,8 @@
-GUI changes, bug fixes:
-Fixed bug with OpenFile panel's caption (missed last letter).
-Changed colors of some components.
+Graphics improvements:
+Implemented scaling using scale and offset edit values.
+Implemented Reset and Reset all buttons.
+Implemented Change color for series.
+Added label to output messages.
 
 DON'T DO THIS:
 Don't make program remember last added series to chart at it's start!

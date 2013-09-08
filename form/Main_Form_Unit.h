@@ -65,6 +65,8 @@ __published:	// IDE-managed Components
 	TBitBtn *Reset_btn;
 	TBitBtn *reset_all_btn;
 	TBitBtn *scale_btn;
+	TBitBtn *change_color_btn;
+	TLabel *output_label;
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall FormDestroy(TObject *Sender);
 	void __fastcall FormResize(TObject *Sender);
@@ -78,7 +80,10 @@ __published:	// IDE-managed Components
 	void __fastcall ChannelBoxChange(TObject *Sender);
 	void __fastcall auto_scale_all_btnClick(TObject *Sender);
 	void __fastcall Splitter1Moved(TObject *Sender);
-	void __fastcall scale_editEnter(TObject *Sender);
+	void __fastcall scale_btnClick(TObject *Sender);
+	void __fastcall Reset_btnClick(TObject *Sender);
+	void __fastcall reset_all_btnClick(TObject *Sender);
+	void __fastcall change_color_btnClick(TObject *Sender);
 
 
 private:	// User declarations
@@ -89,9 +94,12 @@ public:		// User declarations
 	void __fastcall clearGrid(TStringGrid* grid);
 	void __fastcall clearAll();
 	void __fastcall defaultFill();
-	void add_series(const int index);
+	void draw_series(const int index); // don't use it directly
+	void add_series(const int index);  // use it to add series
+	void delete_series(const int index);
 	void start_init();
 	void change_check_list_channel_item(const int index);
+	void auto_scale_all();
 
 	// нормализует заголовок панели файлов
 	void normalize_caption();
@@ -100,8 +108,6 @@ public:		// User declarations
 	UnicodeString normalize_path_length(UnicodeString text, const int font_size,
 	const int space_width);
 
-	// производит коррекцию цвета для лучшего воссприятия
-	TColor optimal_rand_color();
 };
 
 //---------------------------------------------------------------------------

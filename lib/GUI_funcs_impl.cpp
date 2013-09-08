@@ -116,3 +116,11 @@ int Color_generator::generate_rand_color(const int max_bright, int max_iteration
 
 	return 0;
 }
+
+// производит коррекцию цвета для лучшего воссприятия
+TColor optimal_rand_color()
+{
+	Color_generator color_gen;
+	color_gen.generate_rand_color(Color_generator::optimal_bright);
+	return color_gen.get_color();
+}

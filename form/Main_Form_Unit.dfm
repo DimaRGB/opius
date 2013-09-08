@@ -34,7 +34,7 @@ object MainForm: TMainForm
     Top = 24
     Width = 784
     Height = 338
-    ActivePage = TabSheet1
+    ActivePage = TabSheet5
     Align = alClient
     Constraints.MinWidth = 50
     Style = tsFlatButtons
@@ -300,12 +300,26 @@ object MainForm: TMainForm
           ParentShowHint = False
           ShowHint = True
           TabOrder = 0
+          DesignSize = (
+            671
+            264)
           PrintMargins = (
             15
             29
             15
             29)
           ColorPaletteIndex = 13
+          object output_label: TLabel
+            Left = 255
+            Top = 3
+            Width = 410
+            Height = 13
+            Hint = 'Status'
+            Alignment = taRightJustify
+            Anchors = [akLeft, akTop, akRight]
+            AutoSize = False
+            Caption = 'Loading...'
+          end
           object add_random_channel: TButton
             Left = 79
             Top = 0
@@ -329,6 +343,20 @@ object MainForm: TMainForm
             ShowHint = True
             TabOrder = 1
             OnClick = uncheck_all_channelsClick
+          end
+          object change_color_btn: TBitBtn
+            Left = 151
+            Top = 0
+            Width = 98
+            Height = 21
+            Hint = 'Change color'
+            Caption = 'Change color'
+            Kind = bkRetry
+            NumGlyphs = 2
+            ParentShowHint = False
+            ShowHint = True
+            TabOrder = 2
+            OnClick = change_color_btnClick
           end
         end
         object Panel3: TPanel
@@ -354,7 +382,7 @@ object MainForm: TMainForm
               470
               40)
             object Label2: TLabel
-              Left = 145
+              Left = 155
               Top = 16
               Width = 25
               Height = 13
@@ -372,7 +400,7 @@ object MainForm: TMainForm
             object ChannelBox: TComboBox
               Left = 3
               Top = 13
-              Width = 134
+              Width = 146
               Height = 22
               Hint = 'Channel to edit'
               Style = csDropDownList
@@ -390,14 +418,13 @@ object MainForm: TMainForm
               OnChange = ChannelBoxChange
             end
             object scale_edit: TEdit
-              Left = 175
+              Left = 186
               Top = 12
-              Width = 61
+              Width = 50
               Height = 21
               Anchors = [akTop, akRight, akBottom]
               TabOrder = 1
               Text = '1'
-              OnEnter = scale_editEnter
               OnKeyPress = scale_editKeyPress
             end
             object offset_edit: TEdit
@@ -425,6 +452,7 @@ object MainForm: TMainForm
               ParentShowHint = False
               ShowHint = True
               TabOrder = 3
+              OnClick = Reset_btnClick
             end
             object scale_btn: TBitBtn
               Left = 336
@@ -456,6 +484,7 @@ object MainForm: TMainForm
               ParentShowHint = False
               ShowHint = True
               TabOrder = 4
+              OnClick = scale_btnClick
             end
           end
           object auto_scale_all_btn: TBitBtn
@@ -504,6 +533,7 @@ object MainForm: TMainForm
             ParentShowHint = False
             ShowHint = True
             TabOrder = 2
+            OnClick = reset_all_btnClick
           end
         end
       end
@@ -544,7 +574,7 @@ object MainForm: TMainForm
         390
         22)
       object fcButton: TSpeedButton
-        Left = 284
+        Left = 293
         Top = 0
         Width = 90
         Height = 22
@@ -557,7 +587,7 @@ object MainForm: TMainForm
         Font.Style = []
         ParentFont = False
         OnClick = openButtonClick
-        ExplicitLeft = 296
+        ExplicitLeft = 295
       end
     end
     object cPanel: TPanel
