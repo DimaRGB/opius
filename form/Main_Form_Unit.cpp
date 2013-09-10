@@ -78,7 +78,8 @@ void TMainForm::normalize_caption()
 	// panels
 	// укорочение длины пути к файлу
 
-	int width = fcPanel->Font->Size; // ширина символа
+//	int width = fcPanel->Font->Size; // ширина символа (8)
+	const int width = 6;
 
 	fcPanel->Caption = fc_path;
 	fcPanel->Caption = normalize_path_length(fcPanel->Caption, width,
@@ -93,7 +94,7 @@ UnicodeString TMainForm::normalize_path_length(UnicodeString text,
 	const int font_size, const int space_width)
 {
 	const int min_str_front = 8;
-	const int min_str_back = 4;
+	const int min_str_back = 5;
 	const int max_str_sz = 20;
 	const int min_path_parts = 4; // при котором сохраняется корневая папка
 
@@ -123,7 +124,7 @@ UnicodeString TMainForm::normalize_path_length(UnicodeString text,
 			if(path[i].Length() > max_str_sz)
 			{
 				path[i] = path[i].SubString(0,min_str_front) + "..."
-				+ path[i].SubString(path[i].Length()-min_str_back,min_str_back);
+				+ path[i].SubString(path[i].Length()-min_str_back+1,min_str_back);
 				improved = true;
 			}
 			if(improved)
@@ -190,9 +191,9 @@ void __fastcall TMainForm::loadAndPrintAll() {
 		PrintFreeZone_v2( anlgMemo->Lines, anlgGrid,
 			snglMemo->Lines, snglGrid, checkListChannel->Items,
 			ChannelBox->Items); // nechat "fiziki" napametpov (free-zoNa)
+		isCorrect = true;
 		for(int i=0; i<rand_series_at_start; i++)
 		{ add_random_channelClick(0);}
-		isCorrect = true;
 		output_label->Caption = "Data loaded ";
 		return;
 	}
@@ -272,18 +273,23 @@ void TMainForm::add_series(const int index)
 
 	if(auto_scale_all_btn->Tag)
 	{
-	  auto_scale_all();
-	  for(int i=0; i<checkListChannel->Items->Count; i++)
-	  {
-		  if(checkListChannel->Checked[i])
-		  {
-		  	delete_series(i);
-			draw_series(i);
-		  }
-      }
+		auto_scale_all();
+		redraw_series();
 	}
 	else
 	{ draw_series(index);}
+}
+
+void TMainForm::redraw_series()
+{
+   for(int i=0; i<checkListChannel->Items->Count; i++)
+   {
+	  if(checkListChannel->Checked[i])
+	  {
+		delete_series(i);
+		draw_series(i);
+	  }
+   }
 }
 
 // don't use it directly
@@ -306,12 +312,69 @@ void TMainForm::draw_series(const int index)
 
 void TMainForm::auto_scale_all()
 {
+	vector<int> checked_series; // индексы элементов вектора параметров,
+								// которые отмечены
+	for (int i=0; i<checkListChannel->Items->Count; i++) // поиск всех отмеченых
+	{
+		if(checkListChannel->Checked[i])
+		{ checked_series.push_back(i); }
+	}
 
+	if (checked_series.size() == 0) // нет отмеченых
+	{
+		output_label->Caption = " No series to scale ";
+		return;
+	}
+	else
+	{
+		double max_range = anlg_param_vec[checked_series[0]].max_val
+		- anlg_param_vec[checked_series[0]].min_val;
+
+		// просмотр всех отмеченых и поиск max_range
+		for (int i=0; i<checked_series.size(); i++)
+		{
+			double cur_max = anlg_param_vec[checked_series[i]].max_val;
+			double cur_min = anlg_param_vec[checked_series[i]].min_val;
+			double cur_range = cur_max - cur_min;
+
+			if( cur_range > max_range )
+			{ max_range = cur_range;}
+		}
+
+        double average_sum = 0;
+
+		// вычисление и установка коеффициента масштаба для каждого параметра,
+		// вычисление суммы средних значений отмасштабированных параметров
+		for (int i=0; i<checked_series.size(); i++)
+		{
+			double cur_max = anlg_param_vec[checked_series[i]].max_val;
+			double cur_min = anlg_param_vec[checked_series[i]].min_val;
+			double cur_range = cur_max - cur_min;
+
+			anlg_param_vec[checked_series[i]].scale =
+			( cur_range == 0 ? 1 : (max_range / cur_range) ); // не делить на ноль
+
+            double cur_scale = anlg_param_vec[checked_series[i]].scale;
+//			average_sum+= (cur_max + cur_min)*cur_scale /2;
+			average_sum+= (cur_max + cur_min) /2;
+		}
+
+		// общее среднее для всех параметров
+		double average = average_sum / checked_series.size(); // деление на ноль исключено
+
+		// вычисление и установка смещения для каждого параметра
+		for (int i=0; i<checked_series.size(); i++)
+		{
+			double cur_max = anlg_param_vec[checked_series[i]].max_val;
+			double cur_min = anlg_param_vec[checked_series[i]].min_val;
+			double cur_scale = anlg_param_vec[checked_series[i]].scale;
+			double cur_average = (cur_max + cur_min)*cur_scale /2;
+
+			anlg_param_vec[checked_series[i]].offset = average - cur_average;
+		}
+
+	} // end of else
 }
-
-// производит коррекцию цвета для лучшего воссприятия
-
-
 
 void __fastcall TMainForm::clearGrid(TStringGrid* grid) {
 	for( int i = 0; i < grid->RowCount; i++ )
@@ -398,36 +461,46 @@ void __fastcall TMainForm::offset_editKeyPress(TObject *Sender, System::WideChar
 
 void __fastcall TMainForm::uncheck_all_channelsClick(TObject *Sender)
 {
-	checkListChannel->CheckAll(cbUnchecked,false,false);
-	while(Chart->SeriesCount())
-	{ Chart->Series[0]->Free();}
-	output_label->Caption = " All series deleted ";
+	if(isCorrect)
+	{
+		checkListChannel->CheckAll(cbUnchecked,false,false);
+		while(Chart->SeriesCount())
+		{ Chart->Series[0]->Free();}
+		output_label->Caption = " All series deleted ";
+	}
+	else
+	{ output_label->Caption = " Data not loaded! "; }
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TMainForm::add_random_channelClick(TObject *Sender)
 {
-	vector<int> unchecked;
-	for(int i=0; i<checkListChannel->Items->Count; i++) // get all unchecked
+	if(isCorrect)
 	{
-		if(checkListChannel->Checked[i] == false)
-		{ unchecked.push_back(i);}
-	}
+		vector<int> unchecked;
+		for(int i=0; i<checkListChannel->Items->Count; i++) // get all unchecked
+		{
+			if(checkListChannel->Checked[i] == false)
+			{ unchecked.push_back(i);}
+		}
 
-	if(unchecked.size() == 0) // нет неотмеченых
-	{
-		output_label->Caption = " All series already added ";
-		return;
+		if(unchecked.size() == 0) // нет неотмеченых
+		{
+			output_label->Caption = " All series already added ";
+			return;
+		}
+		else
+		{
+		  int random = rand() % unchecked.size();
+		  checkListChannel->Checked[unchecked[random]] = true;
+		  add_series(unchecked[random]);
+		  change_check_list_channel_item(unchecked[random]);
+		  checkListChannel->ItemIndex = unchecked[random];
+		  output_label->Caption = " Series added ";
+		}
 	}
 	else
-	{
-	  int random = rand() % unchecked.size();
-	  checkListChannel->Checked[unchecked[random]] = true;
-	  add_series(unchecked[random]);
-	  change_check_list_channel_item(unchecked[random]);
-	  checkListChannel->ItemIndex = unchecked[random];
-	  output_label->Caption = " Series added ";
-	}
+	{ output_label->Caption = " Data not loaded! "; }
 }
 //---------------------------------------------------------------------------
 
@@ -440,50 +513,78 @@ void TMainForm::start_init()
 
 void __fastcall TMainForm::checkListChannelClick(TObject *Sender)
 {
-	change_check_list_channel_item(checkListChannel->ItemIndex);
-	if(!checkList_changed)
-	{ output_label->Caption = "";}
+	if(isCorrect)
+	{
+		change_check_list_channel_item(checkListChannel->ItemIndex);
+		if(!checkList_changed)
+		{ output_label->Caption = "";}
+		else
+		{checkList_changed = false;}
+	}
 	else
-	{checkList_changed = false;}
+	{ output_label->Caption = " Data not loaded! "; }
 }
 //---------------------------------------------------------------------------
 
 
 void TMainForm::change_check_list_channel_item(const int index)
 {
-	ChannelBox->ItemIndex = index;
-	scale_edit->Text = FloatToStr(anlg_param_vec[index].scale);
-	offset_edit->Text = FloatToStr(anlg_param_vec[index].offset);
+	if(isCorrect)
+	{
+		ChannelBox->ItemIndex = index;
+		scale_edit->Text = FloatToStr(anlg_param_vec[index].scale);
+		offset_edit->Text = FloatToStr(anlg_param_vec[index].offset);
+	}
+	else
+	{ output_label->Caption = " Data not loaded! "; }
 }
 
 
 
 void __fastcall TMainForm::ChannelBoxChange(TObject *Sender)
 {
-	change_check_list_channel_item(ChannelBox->ItemIndex);
-	output_label->Caption = "";
+	if(isCorrect)
+	{
+		change_check_list_channel_item(ChannelBox->ItemIndex);
+		output_label->Caption = "";
+	}
+	else
+	{ output_label->Caption = " Data not loaded! "; }
 }
 //---------------------------------------------------------------------------
 
+void TMainForm::auto_scale_set_off()
+{
+	auto_scale_all_btn->Kind = bkCancel;
+	auto_scale_all_btn->Caption = "Auto Scale OFF";
+	auto_scale_all_btn->Tag = 0;
+}
 
+void TMainForm::auto_scale_set_on()
+{
+	auto_scale_all_btn->Kind = bkOK;
+	auto_scale_all_btn->Caption = "Auto Scale ON";
+	auto_scale_all_btn->Tag = 1;
+
+	auto_scale_all();
+	redraw_series();
+}
 
 
 void __fastcall TMainForm::auto_scale_all_btnClick(TObject *Sender)
 {
-	if(auto_scale_all_btn->Tag)
+	if(isCorrect)
 	{
-		auto_scale_all_btn->Kind = bkCancel;
-		auto_scale_all_btn->Caption = "Auto Scale OFF";
-		auto_scale_all_btn->Tag = 0;
+		if(auto_scale_all_btn->Tag)
+		{ auto_scale_set_off();}
+		else
+		{ auto_scale_set_on(); }
+
+        ChannelBoxChange(0);
+		output_label->Caption = "";
 	}
 	else
-	{
-		auto_scale_all_btn->Kind = bkOK;
-		auto_scale_all_btn->Caption = "Auto Scale ON";
-		auto_scale_all_btn->Tag = 1;
-	}
-
-	output_label->Caption = "";
+	{ output_label->Caption = " Data not loaded! "; }
 }
 //---------------------------------------------------------------------------
 
@@ -507,6 +608,7 @@ void __fastcall TMainForm::scale_btnClick(TObject *Sender)
 {
 	if(isCorrect)
 	{
+		auto_scale_set_off();
 		int index = ChannelBox->ItemIndex;
 
 		bool all_correct = true;
@@ -521,7 +623,7 @@ void __fastcall TMainForm::scale_btnClick(TObject *Sender)
 		{
 			scale_edit->Text = FloatToStr(anlg_param_vec[index].scale);
 			output_label->Caption = " Incorrect input ";
- 			all_correct = false;
+			all_correct = false;
 		}
 
 		try
@@ -541,7 +643,7 @@ void __fastcall TMainForm::scale_btnClick(TObject *Sender)
 		if(checkListChannel->Checked[index])
 		{
 			delete_series(index);
-        }
+		}
 
 		add_series(index);
 		checkListChannel->Checked[index] = true;
@@ -558,6 +660,7 @@ void __fastcall TMainForm::Reset_btnClick(TObject *Sender)
 {
 	if(isCorrect)
 	{
+		auto_scale_set_off();
 		int index = ChannelBox->ItemIndex;
 
 		anlg_param_vec[index].scale = 1;
@@ -583,6 +686,7 @@ void __fastcall TMainForm::reset_all_btnClick(TObject *Sender)
 {
 	if(isCorrect)
 	{
+		auto_scale_set_off();
 		for(int i=0; i<anlg_param_vec.size(); i++)
 		{
 			anlg_param_vec[i].scale = 1;

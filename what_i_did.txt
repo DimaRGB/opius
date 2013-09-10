@@ -1,12 +1,16 @@
-Graphics improvements:
-Implemented scaling using scale and offset edit values.
-Implemented Reset and Reset all buttons.
-Implemented Change color for series.
-Added label to output messages.
+Auto scaling and other changes.
+
+Graphics:
+Implemented auto scaling.
+
+GUI:
+Clarified symbol width in OpenFile panel's caption text.
+Buttons like 'scale', 'reset', and 'reset all' now disabling auto scaling.
+
+Bugs:
+Fixed bug with OpenFile panel's caption [AGAIN] (missed another one last letter).
 
 DON'T DO THIS:
 Don't make program remember last added series to chart at it's start!
 Auto Scale must always ON at start!
 Don't store path to file in panel caption.
-
-

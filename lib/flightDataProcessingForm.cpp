@@ -933,10 +933,19 @@ void PrintFreeZone_v2(TStrings* anlg_par_memo, TStringGrid* anlg_par_grid,
 			anlg_par_memo->Add("\n Base channel registration of analog parameter in frame == " + IntToStr(p_AP[par_num]->cnm));
 			anlg_par_memo->Add("\n processing flag == " + IntToStr(p_AP[par_num]->fl_obr));
 
+			anlg_param.max_val = p_AP[par_num]->fz[0];
+			anlg_param.min_val = p_AP[par_num]->fz[0];
+
 			for (n_kdr=0; n_kdr < dl_fk; n_kdr++) // значения параметра во времени (по кадрам)
 			{
 				anlg_par_grid->Cells[par_num+1][n_kdr+1] = FloatToStr(p_AP[par_num]->fz[n_kdr]);
 				anlg_param.values.push_back(p_AP[par_num]->fz[n_kdr]);
+
+				if(p_AP[par_num]->fz[n_kdr] > anlg_param.max_val)
+				{ anlg_param.max_val = p_AP[par_num]->fz[n_kdr]; }
+
+				if(p_AP[par_num]->fz[n_kdr] < anlg_param.min_val)
+				{ anlg_param.min_val = p_AP[par_num]->fz[n_kdr]; }
 			}
 
 			anlg_param.scale = 1;

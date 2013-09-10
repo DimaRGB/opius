@@ -147,6 +147,8 @@ struct Analog_parameter
 	std::string id;
 	std::string name;
 	std::vector<double> values;
+	double max_val;
+	double min_val;
 	double scale;
 	double offset;
 	TColor color;

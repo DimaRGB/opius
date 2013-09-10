@@ -94,11 +94,14 @@ public:		// User declarations
 	void __fastcall clearGrid(TStringGrid* grid);
 	void __fastcall clearAll();
 	void __fastcall defaultFill();
+	void redraw_series();
 	void draw_series(const int index); // don't use it directly
 	void add_series(const int index);  // use it to add series
 	void delete_series(const int index);
 	void start_init();
 	void change_check_list_channel_item(const int index);
+	void auto_scale_set_off();
+	void auto_scale_set_on();
 	void auto_scale_all();
 
 	// нормализует заголовок панели файлов

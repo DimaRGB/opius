@@ -43,6 +43,10 @@ object MainForm: TMainForm
       BorderWidth = 1
       Caption = 'Flight Data'
       ImageIndex = 1
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object atrMemo: TMemo
         Left = 0
         Top = 0
@@ -79,6 +83,10 @@ object MainForm: TMainForm
       BorderWidth = 1
       Caption = 'Parameter Codes'
       ImageIndex = 2
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object Splitter4: TSplitter
         Left = 0
         Top = 30
@@ -138,6 +146,10 @@ object MainForm: TMainForm
       BorderWidth = 1
       Caption = 'Analog Parameters'
       ImageIndex = 3
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object Splitter2: TSplitter
         Left = 200
         Top = 0
@@ -193,6 +205,10 @@ object MainForm: TMainForm
       BorderWidth = 1
       Caption = 'Single Commands'
       ImageIndex = 4
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object Splitter3: TSplitter
         Left = 250
         Top = 0

@@ -1,15 +1,7 @@
-Если автомаштаб включен, то при добавлении каждой серии пересчитать коефициенты для всех и все перерисовать.
-Если автомасштаб выключен, каждую серию добавлять как есть, старые не трогать.
-
-Автомасштаб доступен только для всех серий одновременно.
-
 to do:
 
-- set scaling
-	- implement auto scale all
-
 - add zoom and reset zoom to chart
-- remove and rezoom +1 division to min and max Y
-- set floating info chart
 - make icon
 - add about info
+- remove and rezoom +1 division to min and max Y
+- set floating info chart
