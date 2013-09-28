@@ -506,7 +506,8 @@ void __fastcall TMainForm::add_random_channelClick(TObject *Sender)
 
 void TMainForm::start_init()
 {
-    srand(static_cast<unsigned int> (time(0)));
+	srand(static_cast<unsigned int> (time(0)));
+	Chart->AnimatedZoom = true;
 }
 
 
@@ -576,12 +577,17 @@ void __fastcall TMainForm::auto_scale_all_btnClick(TObject *Sender)
 	if(isCorrect)
 	{
 		if(auto_scale_all_btn->Tag)
-		{ auto_scale_set_off();}
+		{
+			auto_scale_set_off();
+			ChannelBoxChange(0); // не выносить как общий вниз, важен порядок вызова
+			output_label->Caption = " To reset series press \"Reset all\" key";
+		}
 		else
-		{ auto_scale_set_on(); }
-
-        ChannelBoxChange(0);
-		output_label->Caption = "";
+		{
+			auto_scale_set_on();
+			ChannelBoxChange(0);
+			output_label->Caption = "";
+		}
 	}
 	else
 	{ output_label->Caption = " Data not loaded! "; }
@@ -725,6 +731,32 @@ void __fastcall TMainForm::change_color_btnClick(TObject *Sender)
 	}
 	else
 	{ output_label->Caption = " Data not loaded! ";}
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TMainForm::zoom_in_btnClick(TObject *Sender)
+{
+	Chart->ZoomPercent(110);
+}
+//---------------------------------------------------------------------------
+
+
+void __fastcall TMainForm::zoom_out_btnClick(TObject *Sender)
+{
+	Chart->ZoomPercent(90);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TMainForm::zoom_reset_btnClick(TObject *Sender)
+{
+	Chart->UndoZoom();
+}
+//---------------------------------------------------------------------------
+
+
+void __fastcall TMainForm::info_btnClick(TObject *Sender)
+{
+	about_inf_form->ShowModal();
 }
 //---------------------------------------------------------------------------
 

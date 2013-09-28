@@ -17,6 +17,9 @@
 #include <Vcl.CheckLst.hpp>
 #include <Vcl.Buttons.hpp>
 #include "cspin.h"
+#include <Vcl.XPMan.hpp>
+
+#include "About_form.h"
 
 #include <ctime>
 #include <vector>
@@ -67,6 +70,10 @@ __published:	// IDE-managed Components
 	TBitBtn *scale_btn;
 	TBitBtn *change_color_btn;
 	TLabel *output_label;
+	TBitBtn *zoom_in_btn;
+	TBitBtn *zoom_out_btn;
+	TBitBtn *zoom_reset_btn;
+	TBitBtn *info_btn;
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall FormDestroy(TObject *Sender);
 	void __fastcall FormResize(TObject *Sender);
@@ -84,6 +91,10 @@ __published:	// IDE-managed Components
 	void __fastcall Reset_btnClick(TObject *Sender);
 	void __fastcall reset_all_btnClick(TObject *Sender);
 	void __fastcall change_color_btnClick(TObject *Sender);
+	void __fastcall zoom_in_btnClick(TObject *Sender);
+	void __fastcall zoom_out_btnClick(TObject *Sender);
+	void __fastcall zoom_reset_btnClick(TObject *Sender);
+	void __fastcall info_btnClick(TObject *Sender);
 
 
 private:	// User declarations

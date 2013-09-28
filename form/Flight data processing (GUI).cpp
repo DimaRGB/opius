@@ -8,6 +8,18 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+USEFORM("About_form.cpp", about_inf_form);
 USEFORM("Main_Form_Unit.cpp", MainForm);
 //---------------------------------------------------------------------------
 WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int) {
@@ -15,6 +27,7 @@ WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int) {
 		Application->Initialize();
 		Application->MainFormOnTaskBar = true;
 		Application->CreateForm(__classid(TMainForm), &MainForm);
+		Application->CreateForm(__classid(Tabout_inf_form), &about_inf_form);
 		Application->Run();
 	}
 	catch (Exception &exception) {

@@ -95,19 +95,7 @@ private:
 		saturation = 0;
     }
 
-	void procces()
-	{
-		red = GetRValue(color);
-		green = GetGValue(color);
-		blue = GetBValue(color);
-		brightness = red_coef * red + green_coef * green + blue_coef * blue;
-
-		color_str = ColorToString(color);
-		color_rgb = ColorToRGB(color);
-		color_web_name = ColorToWebColorName(color);
-		color_web_str = ColorToWebColorStr(color);
-		ColorToHLS(color,hue,luminance, saturation);
-    }
+	void procces();
 
 public:
 

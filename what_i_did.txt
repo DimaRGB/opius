@@ -1,14 +1,11 @@
-Auto scaling and other changes.
+About window, icons and chart improvements:
 
-Graphics:
-Implemented auto scaling.
-
-GUI:
-Clarified symbol width in OpenFile panel's caption text.
-Buttons like 'scale', 'reset', and 'reset all' now disabling auto scaling.
-
-Bugs:
-Fixed bug with OpenFile panel's caption [AGAIN] (missed another one last letter).
+Added 'zoom in', 'zoom out' and 'zoom reset' buttons.
+Added zoom animation.
+Added hint to chart.
+Added custom bitmaps to buttons.
+Added icon to project and main window.
+Added about window with information about program and program picture. 
 
 DON'T DO THIS:
 Don't make program remember last added series to chart at it's start!

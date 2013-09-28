@@ -83,6 +83,7 @@
 			<ILINK_TranslatedLibraryPath>$(BDSLIB)\$(PLATFORM)\debug\$(LANGDIR);$(ILINK_TranslatedLibraryPath)</ILINK_TranslatedLibraryPath>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
+			<Icon_MainIcon>images\FDP_icon_v1.ico</Icon_MainIcon>
 			<VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
 			<UsePackages>false</UsePackages>
 			<LinkPackageStatics>rtl.lib;vcl.lib;Tee.lib;vclimg.lib;vclx.lib;bcbsmp.lib</LinkPackageStatics>
@@ -94,6 +95,12 @@
 			<TASM_Debugging>None</TASM_Debugging>
 		</PropertyGroup>
 		<ItemGroup>
+			<CppCompile Include="About_form.cpp">
+				<Form>about_inf_form</Form>
+				<FormType>dfm</FormType>
+				<DependentOn>About_form.h</DependentOn>
+				<BuildOrder>7</BuildOrder>
+			</CppCompile>
 			<CppCompile Include="Flight data processing (GUI).cpp">
 				<BuildOrder>0</BuildOrder>
 			</CppCompile>
@@ -118,6 +125,7 @@
 			<CppCompile Include="..\lib\GUI_funcs_impl.cpp">
 				<BuildOrder>6</BuildOrder>
 			</CppCompile>
+			<FormResources Include="About_form.dfm"/>
 			<FormResources Include="Main_Form_Unit.dfm"/>
 			<BuildConfiguration Include="Release">
 				<Key>Cfg_2</Key>
@@ -171,6 +179,12 @@
 						<ProjectProperties Name="ManagePaths">True</ProjectProperties>
 						<ProjectProperties Name="VerifyPackages">True</ProjectProperties>
 					</ProjectProperties>
+					<Excluded_Packages>
+						<Excluded_Packages Name="$(BDSBIN)\bcboffice2k160.bpl">Embarcadero C++Builder Office 2000 Servers Package</Excluded_Packages>
+						<Excluded_Packages Name="$(BDSBIN)\bcbofficexp160.bpl">Embarcadero C++Builder Office XP Servers Package</Excluded_Packages>
+						<Excluded_Packages Name="$(BDSBIN)\dcloffice2k160.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
+						<Excluded_Packages Name="$(BDSBIN)\dclofficexp160.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
+					</Excluded_Packages>
 				</CPlusPlusBuilder.Personality>
 				<Deployment/>
 				<Platforms>

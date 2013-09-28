@@ -47,7 +47,20 @@ Implemented scaling using scale and offset edit values.
 Implemented Reset and Reset all buttons.
 Implemented Change color for series.
 Added label to output messages.
+===============================================================================
 
+============================2013.09.11=========================================
+Auto scaling and other changes.
+
+Graphics:
+Implemented auto scaling.
+
+GUI:
+Clarified symbol width in OpenFile panel's caption text.
+Buttons like 'scale', 'reset', and 'reset all' now disabling auto scaling.
+
+Bugs:
+Fixed bug with OpenFile panel's caption [AGAIN] (missed another one last letter).
 
 
 
