@@ -48534,8 +48534,6 @@ object about_inf_form: Tabout_inf_form
     BevelOuter = bvNone
     ShowCaption = False
     TabOrder = 0
-    ExplicitLeft = 266
-    ExplicitHeight = 212
     object Label1: TLabel
       Left = -128
       Top = 64
@@ -48553,8 +48551,6 @@ object about_inf_form: Tabout_inf_form
       Caption = 'about info'
       GlowSize = 1000
       Transparent = True
-      ExplicitLeft = 0
-      ExplicitTop = 0
       ExplicitWidth = 49
       ExplicitHeight = 13
     end

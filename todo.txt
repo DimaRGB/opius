@@ -1,4 +1,4 @@
 to do:
 
-- write docs
+- write docs, make help file
 - set floating info chart

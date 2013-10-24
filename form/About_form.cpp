@@ -18,12 +18,11 @@ void __fastcall Tabout_inf_form::FormCreate(TObject *Sender)
 {
 	about_label->Caption =
 	"\n Flight Data Processing version 1.0"
-	"\n Copyright © 2013 Authors. \n All Rights Reserved."
 	"\n"
 	"\n Authors:"
 	"\n"
 	"\n Alexander Sergeyevich Ostapenko,"
-	"\n Senior lecturer in \n Computer Information Technology:"
+	"\n Senior lecturer in the Insitute of \n Computer Information Technology:"
 	"\n Console Flight Data Processing \n functions library."
 	"\n"
 	"\n Belyak Vitaliy Y.,"

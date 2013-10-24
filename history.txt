@@ -61,6 +61,19 @@ Buttons like 'scale', 'reset', and 'reset all' now disabling auto scaling.
 
 Bugs:
 Fixed bug with OpenFile panel's caption [AGAIN] (missed another one last letter).
+===============================================================================
+
+===============================================================================
+About window, icons and chart improvements:
+
+Added 'zoom in', 'zoom out' and 'zoom reset' buttons.
+Added zoom animation.
+Added hint to chart.
+Added custom bitmaps to buttons.
+Added icon to project and main window.
+Added about window with information about program and program picture. 
+
+
 
 
 

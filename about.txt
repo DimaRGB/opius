@@ -1,10 +1,9 @@
 Flight Data Processing version 1.0
-Copyright © 2013 Authors. All Rights Reserved.
 
 Authors:
 
 Alexander Sergeyevich Ostapenko,
-Senior lecturer in Computer Information Technology:
+Senior lecturer in the Insitute of Computer Information Technology:
 Console Flight Data Processing functions library.
 
 Belyak Vitaliy Y.,
